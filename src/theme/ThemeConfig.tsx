@@ -6,6 +6,8 @@ interface ThemeConfigProps {
 }
 
 const ThemeConfig = ({ children }: ThemeConfigProps) => {
+  const mode: 'light' | 'dark' = 'light';
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -17,10 +19,33 @@ const ThemeConfig = ({ children }: ThemeConfigProps) => {
         light: '#FEB19A',
         main: '#FE6257',
         dark: '#B62B39'
-      }
+      },
+      background: {
+        default: mode === 'light' ? '#F5F5F5' : '#121212'
+      },
+      mode
     },
     typography: {
       fontFamily: 'Lexend, sans-serif'
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: '500px'
+          },
+          sizeMedium: {
+            height: 40
+          }
+        }
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            borderRadius: '500px'
+          }
+        }
+      }
     }
   });
 
