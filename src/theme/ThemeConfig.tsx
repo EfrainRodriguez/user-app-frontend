@@ -1,12 +1,14 @@
 import { ReactNode } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
+import { useCustomSelector } from '@/hooks/reduxHooks';
+
 interface ThemeConfigProps {
   children: ReactNode;
 }
 
 const ThemeConfig = ({ children }: ThemeConfigProps) => {
-  const mode: 'light' | 'dark' = 'light';
+  const themeMode = useCustomSelector((state) => state.settings.themeMode);
 
   const theme = createTheme({
     palette: {
@@ -21,9 +23,9 @@ const ThemeConfig = ({ children }: ThemeConfigProps) => {
         dark: '#B62B39'
       },
       background: {
-        default: mode === 'light' ? '#F5F5F5' : '#121212'
+        default: themeMode === 'light' ? '#F5F5F5' : '#121212'
       },
-      mode
+      mode: themeMode
     },
     typography: {
       fontFamily: 'Lexend, sans-serif'
