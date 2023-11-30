@@ -32,6 +32,8 @@ const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
           name: 'email',
           label: 'E-mail',
           placeholder: 'Type your e-mail',
+          error: Boolean(formik.errors.email),
+          helperText: formik.errors.email,
           InputProps: {
             startAdornment: (
               <Person
@@ -42,15 +44,14 @@ const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
           onChange: formik.handleChange
         }}
       />
-      {formik.errors.email && (
-        <div style={{ color: 'red' }}>{formik.errors.email}</div>
-      )}
       <CustomTextField
         textFieldProps={{
           label: 'Password',
           name: 'password',
           placeholder: 'Type your password',
           type: showPassword ? 'text' : 'password',
+          error: Boolean(formik.errors.password),
+          helperText: formik.errors.password,
           InputProps: {
             startAdornment: (
               <Lock sx={{ color: (theme) => theme.palette.grey[500], mr: 1 }} />

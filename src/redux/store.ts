@@ -2,7 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+// slices
 import settingsSlice from './slices/settings.slice';
+import userSlice from './slices/user.slice';
+// services
+import userApi from './services/user.service';
 
 const persistSetting = {
   key: 'settings',
@@ -12,8 +16,18 @@ const persistSetting = {
 
 const store = configureStore({
   reducer: {
-    [settingsSlice.name]: persistReducer(persistSetting, settingsSlice.reducer)
-  }
+    // slices
+    [settingsSlice.name]: persistReducer<
+      ReturnType<typeof settingsSlice.reducer>
+    >(persistSetting, settingsSlice.reducer),
+    [userSlice.name]: userSlice.reducer,
+    // services
+    [userApi.reducerPath]: userApi.reducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    }).concat(userApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

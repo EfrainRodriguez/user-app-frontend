@@ -1,5 +1,6 @@
 import { Container } from '@mui/material';
 
+import { useLoginMutation } from '@/redux/services/user.service';
 import LoginForm from './components/LoginForm';
 import {
   StyledBox,
@@ -9,8 +10,10 @@ import {
 import { LoginFormDto } from './components/LoginForm/dtos/loginFormDto';
 
 const Login = () => {
-  const handleSubmit = (values: LoginFormDto) => {
-    console.log(values); // TODO: implement network call
+  const [login] = useLoginMutation();
+
+  const handleSubmit = async (values: LoginFormDto) => {
+    await login(values).unwrap();
   };
 
   return (
