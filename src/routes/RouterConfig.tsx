@@ -27,10 +27,6 @@ const routes: RouteObject[] = [
       {
         path: '',
         element: lazy(async () => await import('@/pages/Home'))
-      },
-      {
-        path: 'products',
-        element: lazy(async () => await import('@/pages/Products'))
       }
     ],
     guard: lazy(async () => await import('@/guards/AuthGuard'))
@@ -38,6 +34,14 @@ const routes: RouteObject[] = [
   {
     path: '/login',
     element: lazy(async () => await import('@/pages/Login'))
+  },
+  {
+    path: '/signup',
+    element: lazy(async () => await import('@/pages/Signup'))
+  },
+  {
+    path: '*',
+    element: lazy(async () => await import('@/pages/NotFound'))
   }
 ];
 

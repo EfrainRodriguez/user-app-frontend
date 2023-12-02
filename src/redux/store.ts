@@ -14,13 +14,23 @@ const persistSetting = {
   whitelist: ['themeMode']
 };
 
+const persistUser = {
+  key: 'user',
+  storage,
+  whitelist: ['accessToken']
+};
+
 const store = configureStore({
   reducer: {
     // slices
     [settingsSlice.name]: persistReducer<
       ReturnType<typeof settingsSlice.reducer>
     >(persistSetting, settingsSlice.reducer),
-    [userSlice.name]: userSlice.reducer,
+
+    [userSlice.name]: persistReducer<ReturnType<typeof userSlice.reducer>>(
+      persistUser,
+      userSlice.reducer
+    ),
     // services
     [userApi.reducerPath]: userApi.reducer
   },

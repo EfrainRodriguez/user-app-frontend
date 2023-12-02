@@ -1,14 +1,16 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
+import { useCustomSelector } from '@/hooks/reduxHooks';
+
 interface AuthGuardProps {
   children: ReactNode;
 }
 
 const AuthGuard = ({ children }: AuthGuardProps) => {
-  const isAuthenticated = true;
+  const { accessToken } = useCustomSelector((state) => state.userSlice);
 
-  if (!isAuthenticated) {
+  if (!accessToken) {
     return <Navigate to="/login" />;
   }
 
