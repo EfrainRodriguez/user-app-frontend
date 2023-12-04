@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Person, VisibilityOff, Visibility, Lock } from '@mui/icons-material';
-import { IconButton, Box, Button } from '@mui/material';
+import { IconButton, Box, Button, CircularProgress } from '@mui/material';
 import { useFormik } from 'formik';
 
 import { validationSchema } from './utils/validation';
@@ -8,10 +8,14 @@ import { LoginFormDto } from './dtos/loginFormDto';
 import CustomTextField from '@/components/CustomTextField';
 
 interface LoginFormProps {
+  isLoading?: boolean;
   onSubmit?: (values: LoginFormDto) => void;
 }
 
-const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
+const LoginForm = ({
+  isLoading = false,
+  onSubmit = () => {}
+}: LoginFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
@@ -71,7 +75,10 @@ const LoginForm = ({ onSubmit = () => {} }: LoginFormProps) => {
       />
       <Box display="flex" justifyContent="center" sx={{ mt: 3 }}>
         <Button variant="contained" type="submit">
-          Login
+          Login{' '}
+          {isLoading && (
+            <CircularProgress size={20} sx={{ color: 'white', ml: 1 }} />
+          )}
         </Button>
       </Box>
     </form>

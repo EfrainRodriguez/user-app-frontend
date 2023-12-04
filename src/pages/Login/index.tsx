@@ -1,5 +1,6 @@
 import { Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import { useCustomDispatch } from '@/hooks/reduxHooks';
 import { setAccessToken } from '@/redux/slices/user.slice';
@@ -13,18 +14,25 @@ import {
 import { LoginFormDto } from './components/LoginForm/dtos/loginFormDto';
 
 const Login = () => {
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const dispatch = useCustomDispatch();
-
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (values: LoginFormDto) => {
-    const response = await login(values).unwrap();
-
-    dispatch(setAccessToken(response.accessToken));
-
-    navigate('/');
+    try {
+      const response = await login(values).unwrap();
+      enqueueSnackbar('Bienvenido!', {
+        variant: 'success'
+      });
+      dispatch(setAccessToken(response.accessToken));
+      navigate('/');
+    } catch (error) {
+      enqueueSnackbar('Hubo un error, por favor intente nuevamente!', {
+        variant: 'error'
+      });
+    }
   };
 
   return (
@@ -32,7 +40,7 @@ const Login = () => {
       <StyledBox>
         <StyledCard>
           <StyledTitle variant="h1">Login</StyledTitle>
-          <LoginForm onSubmit={handleSubmit} />
+          <LoginForm isLoading={isLoading} onSubmit={handleSubmit} />
         </StyledCard>
       </StyledBox>
     </Container>
