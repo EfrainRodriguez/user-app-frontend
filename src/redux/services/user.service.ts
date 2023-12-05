@@ -35,11 +35,21 @@ const userApi = createApi({
         url: '/',
         method: 'GET'
       })
+    }),
+    getUser: builder.query({
+      query: (id) => ({
+        url: `/${id}`,
+        method: 'GET'
+      })
     })
   })
 });
 
-export const { useLoginMutation, useSignupMutation, useGetUsersQuery } =
-  userApi;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useGetUsersQuery,
+  useGetUserQuery
+} = userApi;
 
 export default userApi;

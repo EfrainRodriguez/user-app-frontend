@@ -27,6 +27,10 @@ const routes: RouteObject[] = [
       {
         path: '',
         element: lazy(async () => await import('@/pages/Home'))
+      },
+      {
+        path: '/user/:id',
+        element: lazy(async () => await import('@/pages/User'))
       }
     ],
     guard: lazy(async () => await import('@/guards/AuthGuard'))
