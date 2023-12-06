@@ -1,20 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { RootState } from '../store';
+import { customBaseQuery } from '../../utils/customBaseQuery.util';
 
 const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_API_URL}/api/v1/user`,
-    prepareHeaders: (headers, { getState }) => {
-      const state = getState() as RootState;
-      const { accessToken } = state.userSlice;
-      if (accessToken) {
-        headers.set('Authorization', accessToken);
-      }
-      return headers;
-    }
-  }),
+  baseQuery: customBaseQuery,
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (body) => ({
